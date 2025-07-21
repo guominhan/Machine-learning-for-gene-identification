@@ -93,6 +93,7 @@ IV. Common Issues and Precautions
 2. Grouping variables must be of factor type: Otherwise, errors may occur during model training or evaluation.
 3. Output file overwriting: Pay attention to file overwriting and naming to avoid accidental overwriting.
 4. R environment: It is recommended to use R ≥ 4.0.0, and ensure that the required R packages (randomForest, ggplot2, pheatmap) are installed in advance.
+
 V. Result Interpretation
 1. train_predict_group3_1.txt: Comparison of training set predictions and true results
 2. best_importance_class_group3_1.txt: Feature importance ranking
@@ -115,9 +116,12 @@ rf = randomForest(t(otu_sub), design_sub$Type, importance=TRUE, proximity=TRUE, 
 - Other hyperparameters (e.g., mtry, nodesize, etc.)
   Default values are used, i.e., mtry is the number of features selected at each split (by default, the square root of the total number of features), and nodesize is the minimum number of samples in each leaf node of a tree (default is 1 for classification tasks).
   Using default values facilitates process standardization, helps unify experimental workflows, and makes results comparable across different batches or operators. It also avoids tedious parameter tuning, especially in exploratory analysis or when data volume is small, thus improving efficiency.
+
 VII. Model Validation Type
 Cross-validation is used for feature selection and validation:
 result = rfcv(t(otu_sub), design_sub$Type, cv.fold=5)
 1. 5-fold cross-validation (cv.fold=5) is used.
 2. The training set is randomly divided into 5 subsets; each time, 4 subsets are used for training and 1 subset for validation. This is repeated 5 times to obtain cross-validation error rates (error.cv) for different numbers of features.
 3. The optimal number of features (where the error rate is lowest) is selected based on cross-validation results, thereby avoiding overfitting.
+
+
